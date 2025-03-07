@@ -28,6 +28,17 @@ set* createSet(void){
     return new_set;
 }
 
+bool setSearch(set* set, int var){
+    if(set->size){
+        node* curNode = set->set_pt;
+        while(curNode != NULL){
+            if(curNode->val == var) return curNode;
+            curNode = curNode->next;
+        }
+        return NULL;
+    }else return NULL;
+}
+
 void setPush(set* set){
     int new_var;
     char res = 0;
@@ -38,10 +49,12 @@ void setPush(set* set){
     ++set->size;
     do{
         char res = scanf("%d", &new_var);
-        node* tmp = create_node(new_var);
-        set->now->next = tmp;
-        set->now = tmp;
-        ++set->size;
+        if (!setSearch(set, new_var)){
+            node* tmp = create_node(new_var);
+            set->now->next = tmp;
+            set->now = tmp;
+            ++set->size;
+        }
     }while(new_var != 0);
 }
 
