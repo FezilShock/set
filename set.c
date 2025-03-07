@@ -68,14 +68,36 @@ void setOutput(set* set){
     }
 }
 
-int convert(int dv){
-    int res = 0;
+double modulo(double a){
+    if(a >= 0){
+        int b = (int) a;
+        return (a-b);
+    }else{
+        int b = (int) a;
+        return (b-a);
+    }
+}
+
+
+double convert(double val){
+    int dv = (int)val;
+    double res = 0;
     long j = 1;
     while(dv > 0){
         res += (dv % 2) * j;
         dv /= 2;
         j *= 10;
     }
+
+    double fract = modulo(val);
+    double fract_res = 0;
+    for(int j = 4, k = 10000; j >= 0; j--){
+        fract_res += (int)fract * k;
+        if((int)fract >= 1) fract -=1;
+        fract *= 2;
+        k = k / 10;         
+    }
+    res += (fract_res * 0.0001);
     return res;
 }
 
@@ -108,16 +130,6 @@ void freeset(set* set){
     free(set);
 }
 
-double modulo(double a){
-    if(a >= 0){
-        int b = (int) a;
-        return (a-b);
-    }else{
-        int b = (int) a;
-        return (b-a);
-    }
-}
-
 int main(void)
 {
     set* main_set = createSet();
@@ -128,5 +140,6 @@ int main(void)
     putchar('\n');
     setOutput(bin_set);
     freeset(main_set);
+    freeset(bin_set);
     return 0;
 }

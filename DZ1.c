@@ -36,7 +36,7 @@ void output(long double *digits,long double *digits2,long double *digits2_1, int
                 
         }
         if (flag == 0 && digits2[i] != 0 || flag == 1) {
-            printf("%ld.%04ld ", (long)digits2[i], (long)digits2_1[i]);
+            printf("%.4lf ", digits2[i]);
         }
         pass2:;
     }
@@ -54,10 +54,10 @@ void translation(long double *digits,long double *digits2,long double *digits2_1
                 dv /= 2;
                 j *= 10;
             }
-            digits2[i] = res;
+            
             
             long double ost = (long double)drob(digits[i]);
-            int res_drob = 0;
+            double res_drob = 0;
             for(int j = 4, k = 10000; j >= 0; j--){
                 res_drob += (int)ost * k;
                 if((int)ost >= 1) ost -=1;
@@ -65,7 +65,7 @@ void translation(long double *digits,long double *digits2,long double *digits2_1
                 k = k / 10;
                 
             }
-            digits2_1[i] = res_drob;
+            digits2[i] = res + res_drob * 0.0001;
         }
         if (digits[i] < 0){
             long dv = (long)digits[i];
@@ -79,7 +79,7 @@ void translation(long double *digits,long double *digits2,long double *digits2_1
             digits2[i] = res;
 
             long double ost = (long double)drob(digits[i]);
-            int res_drob = 0;
+            double res_drob = 0;
             for(int j = 4, k = 10000; j >= 0; j--){
                 res_drob += (int)ost * k;
                 if((int)ost >= 1) ost -=1;
@@ -87,7 +87,7 @@ void translation(long double *digits,long double *digits2,long double *digits2_1
                 k = k / 10;
                 
             }
-            digits2_1[i] = res_drob;
+            digits2_1[i] = res_drob * 0.0001;
         }
     }
 }
