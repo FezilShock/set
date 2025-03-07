@@ -67,6 +67,13 @@ void setOutput(set* set){
         curNode = curNode->next;
     }
 }
+void setOutput2(set* set){
+    node* curNode = set->first_node;
+    while(curNode != NULL){
+        printf("%lld ", (long long)curNode->val);
+        curNode = curNode->next;
+    }
+}
 
 double modulo(double a){
     if(a >= 0){
@@ -98,7 +105,30 @@ double convert(double val){
         k = k / 10;         
     }
     res += (fract_res * 0.0001);
-    return res;
+    int power = 0;
+    if (res>1){
+        while((int) res > 1){
+        res *= 0.1;
+        power++;
+        }
+    }else{
+        while((int) res < 1){
+        res *= 10;
+        power--;
+        }
+    }
+    res = (int)res; // откидываем неявную единицу
+    dv = power + 127;
+    long powerres = 0;
+    j = 1;
+    while(dv > 0){
+        powerres += (dv % 2) * j;
+        dv /= 2;
+        j *= 10;
+    }
+    printf("%ld\n", powerres);
+    double total =  powerres * 10e7 + res * 10e4;
+    return total;
 }
 
 void binconvert(set* main_set, set* bin_set){
@@ -138,7 +168,7 @@ int main(void)
     binconvert(main_set, bin_set);
     setOutput(main_set);
     putchar('\n');
-    setOutput(bin_set);
+    setOutput2(bin_set);
     freeset(main_set);
     freeset(bin_set);
     return 0;
