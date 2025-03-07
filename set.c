@@ -42,7 +42,7 @@ void setPush(set* set){
         set->now->next = tmp;
         set->now = tmp;
         ++set->size;
-    }while(new_var != EOF);
+    }while(new_var != 0);
 }
 
 void setPush2(node* last, set* set){
