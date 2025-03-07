@@ -10,13 +10,12 @@ typedef struct n{
 
 typedef struct{
     node* set_pt;
+    node* now;
     int size;
 }set;
 
-node* create_node(){
-    int val;
+node* create_node(int val){
     node* new_node = (node *)malloc(sizeof(node));
-    scanf("%d", &val);
     new_node->val = val;
     new_node->next = NULL;
     return new_node;
@@ -30,16 +29,24 @@ set* createSet(void){
 }
 
 void setPush(set* set){
-    node* tmp = create_node();
-    tmp->next = set->set_pt;
+    int new_var;
+    char res = 0;
+    scanf("%d", &new_var);
+    node* tmp = create_node(new_var);
     set->set_pt = tmp;
+    set->now = tmp;
     ++set->size;
+    do{
+        char res = scanf("%d", &new_var);
+        node* tmp = create_node(new_var);
+        set->now->next = tmp;
+        set->now = tmp;
+        ++set->size;
+    }while(new_var != EOF);
 }
 
 void setPush2(node* last, set* set){
-    node* tmp = create_node();
-    last->next = tmp;
-    ++set->size;
+
 }
 
 void setOutput(set* set){
@@ -67,8 +74,6 @@ int main(void)
 {
     set* main_set = createSet();
     setPush(main_set);
-    setPush2(main_set->set_pt, main_set);
-    setPush2(main_set->set_pt->next, main_set);
     setOutput(main_set);
     freeset(main_set);
     return 0;
