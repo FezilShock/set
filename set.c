@@ -36,6 +36,12 @@ void setPush(set* set){
     ++set->size;
 }
 
+void setPush2(node* last, set* set){
+    node* tmp = create_node();
+    last->next = tmp;
+    ++set->size;
+}
+
 void setOutput(set* set){
     node* curNode = set->set_pt;
     while(curNode != NULL){
@@ -61,9 +67,8 @@ int main(void)
 {
     set* main_set = createSet();
     setPush(main_set);
-    setPush(main_set);
-    setPush(main_set);
-    setPush(main_set);
+    setPush2(main_set->set_pt, main_set);
+    setPush2(main_set->set_pt->next, main_set);
     setOutput(main_set);
     freeset(main_set);
     return 0;
