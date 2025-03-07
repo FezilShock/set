@@ -4,7 +4,7 @@
 #include <string.h>
 
 typedef struct n{
-    int* val;
+    int val;
     struct n* next;
 }node;
 
@@ -17,7 +17,7 @@ node* create_node(){
     int val;
     node* new_node = (node *)malloc(sizeof(node));
     scanf("%d", &val);
-    new_node->val = &val;
+    new_node->val = val;
     new_node->next = NULL;
     return new_node;
 }
@@ -39,7 +39,7 @@ void setPush(set* set){
 void setOutput(set* set){
     node* curNode = set->set_pt;
     while(curNode != NULL){
-        printf("%d ", *(curNode->val));
+        printf("%d ", curNode->val);
         curNode = curNode->next;
     }
 }
@@ -60,6 +60,8 @@ void freeset(set* set){
 int main(void)
 {
     set* main_set = createSet();
+    setPush(main_set);
+    setPush(main_set);
     setPush(main_set);
     setPush(main_set);
     setOutput(main_set);
