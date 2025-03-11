@@ -125,7 +125,7 @@ void setOutput2(set *set)
     node *curNode = set->first_node;
     while (curNode != NULL)
     {
-        printf("%017lld ", (long long)curNode->val);
+        printf("%0d %-.6d %d", (long long)(curNode->val / 1e16),  (long long)(curNode->val / 1e8),  (long long)(curNode->val / 1e16));
         curNode = curNode->next;
     }
     putchar('\n');
