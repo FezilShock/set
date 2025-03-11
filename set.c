@@ -116,22 +116,6 @@ void setOutput(set *set)
 }
 
 /*
- * Функция вывода бинарного массива
- * Через пробел выводит все элементы бинарного множества
- * Параметр `set` - указатель на множество
- */
-void setOutput2(set *set)
-{
-    node *curNode = set->first_node;
-    while (curNode != NULL)
-    {
-        printf("%0d %-.6d %d", (long long)(curNode->val / 1e16),  (long long)(curNode->val / 1e8),  (long long)(curNode->val / 1e16));
-        curNode = curNode->next;
-    }
-    putchar('\n');
-}
-
-/*
  * Функция получения дробной части
  * Параметр `a` - число с плавающей точкой
  * Возвращает дробную часть числа с плавающей точкой
@@ -196,34 +180,12 @@ double fractconvert(double val)
  */
 double convert(double val)
 {
-    long total;
+    double total;
     if (val > 0)
     {
         double res = intconvert(val);         // получаем целую часть числа
         double fract_res = fractconvert(val); // получаем дробную часть  числа
-        res += fract_res;                     // складываем их
-        short power = 0;                      // переменная для хранения степени
-        // приводим число в экспоненциальный нормализованный вид
-        if (res > 1)
-        {
-            while ((int)res > 1)
-            {
-                res *= 0.1;
-                power++;
-            }
-        }
-        else
-        {
-            while ((int)res < 1)
-            {
-                res *= 10;
-                power--;
-            }
-        }
-        res -= 1;                           // откидываем неявную единицу у мантиссы
-        power += OFFSET;                       // смещаем степень экспоненты
-        long powerres = intconvert(power);   // переводим степень экспоненты в двоичное представление
-        total = powerres * 1e8 + res * 1e8; // складывает мантиссу и экспоненту
+        total = res + fract_res;                      // складываем их
     }
     else if (val == 0)
     {
@@ -234,29 +196,7 @@ double convert(double val)
         val = -val;
         double res = intconvert(val);          // получаем целую часть числа
         double fract_res = fractconvert(val); // получаем дробную часть  числа
-        res += fract_res;                     // складываем их
-        short power = 0;                      // переменная для хранения степени
-        // приводим число в экспоненциальный нормализованный вид
-        if (res > 1)
-        {
-            while ((int)res > 1)
-            {
-                res *= 0.1;
-                power++;
-            }
-        }
-        else
-        {
-            while ((int)res < 1)
-            {
-                res *= 10;
-                power--;
-            }
-        }
-        res -= 1;                                  // откидываем неявную единицу у мантиссы
-        power += OFFSET;                              // смещаем степень экспоненты
-        long powerres = intconvert(power);          // переводим степень экспоненты в двоичное представление
-        total = 1e16 + powerres * 1e8 + res * 1e8; // складывает мантиссу и экспоненту, добавляем 1 как последний бит
+        total = res + fract_res;                     // складываем их
     }
     return total;
 }
@@ -314,11 +254,12 @@ int main(void)
     set *main_set = createSet();
     set *bin_set = createSet();
     int menu = 0;
-    int input = 1;
+    int input;
 
     help();
-    while (input)
+    do
     {
+        menu = -1;
         puts("Введите команду: ");
         input = scanf("%d", &menu);
         switch (menu)
@@ -334,17 +275,20 @@ int main(void)
             setOutput(main_set);
             break;
         case 3:
-            puts("------------------Вывод множества чисел в двоичном представлении(точность мантиссы 9 байт0)------------------");
-            setOutput2(bin_set);
+            puts("------------------Вывод множества чисел в двоичном представлении------------------");
+            setOutput(bin_set);
             break;
-
         case 0:
             freeset(main_set);
             freeset(bin_set);
             return 0;
+        case -1:
+            puts("Ошибка ввода!!");
+            return 0;
         default:
+            menu = 0;
             help();
         }
-    }
+    }while(input);
     return 0;
 }
