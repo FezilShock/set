@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define OFFSET 127
-
 // создаем структуру для ноды
 typedef struct n
 {
@@ -15,7 +13,7 @@ typedef struct n
 typedef struct
 {
     node *first_node; // указатель на первую ноду множества
-    node *now;        // указатель на
+    node *now;        // указатель на послений элемент множества
     int size;         // переменная для хранения количества элементов
 } set;
 
@@ -25,18 +23,18 @@ typedef struct
  */
 node *create_node(double val)
 {
-    node *new_node = (node *)malloc(sizeof(node));
-    new_node->val = val;
-    new_node->next = NULL;
+    node *new_node = (node *)malloc(sizeof(node)); // выделяем память под новую ноду
+    new_node->val = val;                           // присваиваем значение ноде
+    new_node->next = NULL;                         // приваиваем указателю на следующую ноду NULL
     return new_node;
 }
 
 // Функция выделяет память под множество и возвращает указатель на множество
 set *createSet(void)
 {
-    set *new_set = (set *)malloc(sizeof(set));
-    new_set->first_node = NULL;
-    new_set->size = 0;
+    set *new_set = (set *)malloc(sizeof(set)); // выделяем память под множество
+    new_set->first_node = NULL;                // присваиваем указателю на первую ноду NULL
+    new_set->size = 0;                         // присваиваем переменной размера множества 0
     return new_set;
 }
 
@@ -63,8 +61,6 @@ bool setSearch(set *set, double var)
 
 /*
  * Функция добавления элементов в множество
- * Возвращает 0 если был записан хотя бы один элемент
- * Иначе возвращает -1
  * Параметр `set` - указатель на множество
  */
 void setPush(set *set)
@@ -104,7 +100,7 @@ void setOutput(set *set)
         node *curNode = set->first_node;
         while (curNode != NULL)
         {
-            printf("%-13.3f ", curNode->val);
+            printf("%-.3f ", curNode->val);
             curNode = curNode->next;
         }
     }
@@ -185,7 +181,7 @@ double convert(double val)
     {
         double res = intconvert(val);         // получаем целую часть числа
         double fract_res = fractconvert(val); // получаем дробную часть  числа
-        total = res + fract_res;                      // складываем их
+        total = res + fract_res;              // складываем их
     }
     else if (val == 0)
     {
@@ -194,9 +190,9 @@ double convert(double val)
     else
     {
         val = -val;
-        double res = intconvert(val);          // получаем целую часть числа
+        double res = intconvert(val);         // получаем целую часть числа
         double fract_res = fractconvert(val); // получаем дробную часть  числа
-        total = res + fract_res;                     // складываем их
+        total = res + fract_res;              // складываем их
     }
     return total;
 }
@@ -289,6 +285,6 @@ int main(void)
             menu = 0;
             help();
         }
-    }while(input);
+    } while (input);
     return 0;
 }
